@@ -19,12 +19,28 @@ public class UsuarioService {
     }
 
     public Usuario findById(Long id){
-        Optional<Usuario> obj= repository.findById(id);
-        return obj.get();
+        Optional<Usuario> usuario= repository.findById(id);
+        return usuario.get();
     }
 
-    public Usuario criarUsuario(Usuario usuario) {
+    public Usuario insert (Usuario usuario) {
         //falta reconhecer senha ainda!
         return repository.save(usuario);
+    }
+
+    public void delete (Long id){
+        repository.deleteById(id);
+    }
+
+    public Usuario update (Long id, Usuario usuario){
+        Usuario entity = repository.getReferenceById(id);
+        updateData(entity,usuario);
+        return repository.save(entity);
+    }
+
+    private void updateData(Usuario entity, Usuario usuario) {
+        entity.setNome(usuario.getNome());
+        entity.setEmail(usuario.getEmail());
+
     }
 }
