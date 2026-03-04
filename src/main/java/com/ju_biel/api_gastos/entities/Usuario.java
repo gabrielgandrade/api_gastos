@@ -1,5 +1,6 @@
 package com.ju_biel.api_gastos.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
@@ -81,11 +82,13 @@ public class Usuario implements Serializable, UserDetails
         return Objects.hashCode(id);
     }
 
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();
     }
 
+    @JsonIgnore
     @Override
     public String getPassword() {
         return senha;
@@ -96,17 +99,19 @@ public class Usuario implements Serializable, UserDetails
         return email;
     }
 
-
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return true;

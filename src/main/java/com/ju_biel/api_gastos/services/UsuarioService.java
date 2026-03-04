@@ -24,7 +24,9 @@ public class UsuarioService {
     }
 
     public Usuario insert (Usuario usuario) {
-        //falta reconhecer senha ainda!
+        if (usuario.getNome()== null || usuario.getEmail()==null){
+            throw new RuntimeException("Nome e e-mail precisam estar preenchidos!");
+        }
         return repository.save(usuario);
     }
 
