@@ -2,7 +2,9 @@ package com.ju_biel.api_gastos.services;
 
 import com.ju_biel.api_gastos.entities.Usuario;
 import com.ju_biel.api_gastos.repositories.UsuarioRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,5 +46,15 @@ public class UsuarioService {
         entity.setNome(usuario.getNome());
         entity.setEmail(usuario.getEmail());
 
+    }
+
+    @Transactional
+    public Usuario editarSenha(Long id, String senhaAtual, String novaSenha){
+        Usuario usuario = repository.getReferenceById(id);
+        if (!new BCryptPasswordEncoder().matches(senhaAtual, usuario.getSenha())){
+            throw new RuntimeException("Senha incorreta!");
+        }
+        usuario.setSenha(new BCryptPasswordEncoder().encode(novaSenha));
+        return repository.save(usuario);
     }
 }
